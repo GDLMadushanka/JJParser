@@ -165,4 +165,32 @@ public class TestStringValidator {
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
         StringValidator.parseNominal(schemaObject, testPayload);
     }
+
+    /**
+     * This test checks a valid const constraint.
+     */
+    @Test
+    public void testConstConstraint() throws ValidatorException, ParserException {
+        // pattern to detect numbers
+        String schema = "{ \"type\": \"string\",\"const\": \"pi\"}";
+        String testPayload = "pi";
+        JsonPrimitive expected = new JsonPrimitive(testPayload);
+        JsonObject schemaObject = (JsonObject) parser.parse(schema);
+        JsonPrimitive result = StringValidator.parseNominal(schemaObject, testPayload);
+        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
+        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+    }
+
+    /**
+     * This test checks an invalid const constraint.
+     */
+    @Test
+    public void testInvalidConstConstraint() throws ValidatorException, ParserException {
+        thrown.expect(ValidatorException.class);
+        //thrown.expectMessage("Name is empty!"); - not using since not finalized
+        String schema = "{ \"type\": \"string\",\"const\": \"pi\"}";
+        String testPayload = "ip";
+        JsonObject schemaObject = (JsonObject) parser.parse(schema);
+        StringValidator.parseNominal(schemaObject, testPayload);
+    }
 }
