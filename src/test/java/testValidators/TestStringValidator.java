@@ -13,7 +13,7 @@ import org.junit.rules.ExpectedException;
 import validators.StringValidator;
 
 /**
- * This class will test the StringValidator functionalists according to the schema.
+ * This class will test the StringValidator functionalities according to the schema.
  */
 public class TestStringValidator {
 
@@ -36,7 +36,7 @@ public class TestStringValidator {
         String testPayload = "Banana";
         JsonPrimitive expected = new JsonPrimitive(testPayload);
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        JsonPrimitive result = StringValidator.parseNominal(schemaObject, testPayload);
+        JsonPrimitive result = StringValidator.validateNominal(schemaObject, testPayload);
         Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
         Assert.assertEquals("Didn't receive the expected primitive", expected, result);
     }
@@ -50,7 +50,7 @@ public class TestStringValidator {
         String testPayload = "Banana";
         JsonPrimitive expected = new JsonPrimitive(testPayload);
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        JsonPrimitive result = StringValidator.parseNominal(schemaObject, testPayload);
+        JsonPrimitive result = StringValidator.validateNominal(schemaObject, testPayload);
         Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
         Assert.assertEquals("Didn't receive the expected primitive", expected, result);
     }
@@ -66,7 +66,7 @@ public class TestStringValidator {
         String schema = "{ \"type\": \"string\",\"minLength\": 7}";
         String testPayload = "Banana";
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        StringValidator.parseNominal(schemaObject, testPayload);
+        StringValidator.validateNominal(schemaObject, testPayload);
     }
 
     /**
@@ -78,7 +78,7 @@ public class TestStringValidator {
         String testPayload = "Banana";
         JsonPrimitive expected = new JsonPrimitive(testPayload);
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        JsonPrimitive result = StringValidator.parseNominal(schemaObject, testPayload);
+        JsonPrimitive result = StringValidator.validateNominal(schemaObject, testPayload);
         Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
         Assert.assertEquals("Didn't receive the expected primitive", expected, result);
     }
@@ -94,7 +94,7 @@ public class TestStringValidator {
         String schema = "{ \"type\": \"string\",\"maxLength\": 5}";
         String testPayload = "Banana";
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        StringValidator.parseNominal(schemaObject, testPayload);
+        StringValidator.validateNominal(schemaObject, testPayload);
     }
 
     /**
@@ -107,7 +107,7 @@ public class TestStringValidator {
         String testPayload = "2048";
         JsonPrimitive expected = new JsonPrimitive(testPayload);
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        JsonPrimitive result = StringValidator.parseNominal(schemaObject, testPayload);
+        JsonPrimitive result = StringValidator.validateNominal(schemaObject, testPayload);
         Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
         Assert.assertEquals("Didn't receive the expected primitive", expected, result);
     }
@@ -122,7 +122,7 @@ public class TestStringValidator {
         String schema = "{ \"type\": \"string\",\"pattern\": \"^[0-9]{1,45}$\"}";
         String testPayload = "1.618";
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        StringValidator.parseNominal(schemaObject, testPayload);
+        StringValidator.validateNominal(schemaObject, testPayload);
     }
 
     /**
@@ -135,7 +135,7 @@ public class TestStringValidator {
         String testPayload = "Red";
         JsonPrimitive expected = new JsonPrimitive(testPayload);
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        JsonPrimitive result = StringValidator.parseNominal(schemaObject, testPayload);
+        JsonPrimitive result = StringValidator.validateNominal(schemaObject, testPayload);
         Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
         Assert.assertEquals("Didn't receive the expected primitive", expected, result);
     }
@@ -150,7 +150,7 @@ public class TestStringValidator {
         String schema = "{ \"type\": \"string\",\"enum\": [\"Red\",\"Amber\",\"Green\"]}";
         String testPayload = "1.618";
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        StringValidator.parseNominal(schemaObject, testPayload);
+        StringValidator.validateNominal(schemaObject, testPayload);
     }
 
     /**
@@ -163,7 +163,7 @@ public class TestStringValidator {
         String schema = "{ \"type\": \"string\",\"enum\": [\"Red\",\"Amber\",\"Green\"," + null + "]}";
         String testPayload = null;
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        StringValidator.parseNominal(schemaObject, testPayload);
+        StringValidator.validateNominal(schemaObject, testPayload);
     }
 
     /**
@@ -176,7 +176,7 @@ public class TestStringValidator {
         String testPayload = "pi";
         JsonPrimitive expected = new JsonPrimitive(testPayload);
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        JsonPrimitive result = StringValidator.parseNominal(schemaObject, testPayload);
+        JsonPrimitive result = StringValidator.validateNominal(schemaObject, testPayload);
         Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
         Assert.assertEquals("Didn't receive the expected primitive", expected, result);
     }
@@ -191,6 +191,6 @@ public class TestStringValidator {
         String schema = "{ \"type\": \"string\",\"const\": \"pi\"}";
         String testPayload = "ip";
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        StringValidator.parseNominal(schemaObject, testPayload);
+        StringValidator.validateNominal(schemaObject, testPayload);
     }
 }
