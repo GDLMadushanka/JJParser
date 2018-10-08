@@ -58,17 +58,15 @@ public class TestNumericValidator {
     }
 
     /**
-     * This test checks an invalid integer. (converted to int by validator)
+     * This test checks an invalid integer.
      */
     @Test
-    public void testConvertFloatToInt() throws ValidatorException, ParserException {
+    public void testInvalidInteger() throws ValidatorException, ParserException {
+        thrown.expect(ParserException.class);
         String schema = "{ \"type\": \"integer\"}";
         String testPayload = "3.14";
-        JsonPrimitive expected = new JsonPrimitive(3);
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        JsonPrimitive result = NumericValidator.validateNumeric(schemaObject, testPayload);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        NumericValidator.validateNumeric(schemaObject, testPayload);
     }
 
     /**
@@ -271,14 +269,11 @@ public class TestNumericValidator {
      */
     @Test
     public void testValidEnumInvalidDataType() throws ValidatorException, ParserException {
+        thrown.expect(ParserException.class);
         String schema = "{ \"type\": \"integer\", \"enum\" : [10.5,11.5,12.5]}";
         String testPayload = "10.5";
-        // since 10.5 converted to 11
-        JsonPrimitive expected = new JsonPrimitive(11);
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        JsonPrimitive result = NumericValidator.validateNumeric(schemaObject, testPayload);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        NumericValidator.validateNumeric(schemaObject, testPayload);
     }
 
     /**
@@ -312,12 +307,10 @@ public class TestNumericValidator {
      */
     @Test
     public void testValidConstInvalidDataType() throws ValidatorException, ParserException {
+        thrown.expect(ParserException.class);
         String schema = "{ \"type\": \"integer\", \"const\" : 1.234 }";
         String testPayload = "1.234";
-        JsonPrimitive expected = new JsonPrimitive(1);
         JsonObject schemaObject = (JsonObject) parser.parse(schema);
-        JsonPrimitive result = NumericValidator.validateNumeric(schemaObject, testPayload);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        NumericValidator.validateNumeric(schemaObject, testPayload);
     }
 }
