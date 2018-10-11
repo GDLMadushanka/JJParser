@@ -223,6 +223,20 @@ public class TestArrayValidator {
     }
 
     /**
+     * This test checks additionalItems true constraint with empty objects
+     */
+    @Test
+    public void testAdditionalItemsTrueEmptySchema() throws ValidatorException, ParserException {
+        String schema = "{ \"type\": \"array\", \"items\":[{},{},{}]}";
+        String testPayload = "[34,45,56]";
+        JsonObject schemaObject = (JsonObject) parser.parse(schema);
+        JsonArray expected = (JsonArray) parser.parse(testPayload);
+        JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
+                schemaObject);
+        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
+        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+    }
+    /**
      * This test checks additionalItems false constraint
      */
     @Test
@@ -253,10 +267,10 @@ public class TestArrayValidator {
     }
 
     /**
-     * This test checks additionalItems as an empty an array
+     * This test checks non empty additionalItems
      */
     @Test
-    public void testAdditionalItemsAsArray() throws ValidatorException, ParserException {
+    public void testAdditionalItemsNonEmpty() throws ValidatorException, ParserException {
         String schema = "{ \"type\": \"array\", \"items\":[{\"type\":\"integer\"},{ \"type\": \"string\"},{\"type\": " +
                 "\"boolean\"}],\"additionalItems\":{\"type\":\"integer\"}}";
         String testPayload = "[\"8\",\"Lahiru\",\"true\",\"12\",\"13\"]";
