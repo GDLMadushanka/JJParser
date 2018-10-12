@@ -282,4 +282,74 @@ public class TestArrayValidator {
         Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
         Assert.assertEquals("Didn't receive the expected primitive", expected, result);
     }
+
+    static String objectInsideArrayString =  "{\n" +
+            "  \"type\": \"array\",\n" +
+            "  \"items\": {\n" +
+            "    \"type\": \"object\",\"properties\":{\n" +
+            "      \"car\":{\"type\":\"string\"},\n" +
+            "      \"prize\":{\"type\":\"integer\"}\n" +
+            "    }\n" +
+            "  }\n" +
+            "}";
+
+    /**
+     * This test checks object inside array.
+     */
+    @Test
+    public void testObjectInsideArray() throws ValidatorException, ParserException {
+        String testPayload = "[{\"car\":\"lambo\",\"prize\":\"34\"}]";
+        String expectedPayload = "[{\"car\":\"lambo\",\"prize\":34}]";
+        JsonObject schemaObject = (JsonObject) parser.parse(objectInsideArrayString);
+        JsonArray expected = (JsonArray) parser.parse(expectedPayload);
+        JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
+                schemaObject);
+        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
+        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+    }
+
+    /**
+     * This test checks invalid object inside array.
+     */
+    @Test
+    public void testInvalidObjectInsideArray() throws ValidatorException, ParserException {
+        thrown.expect(ParserException.class);
+        String testPayload = "[{\"car\":\"lambo\",\"prize\":\"34.56\"}]";
+        JsonObject schemaObject = (JsonObject) parser.parse(objectInsideArrayString);
+        ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload), schemaObject);
+    }
+
+    static String multipleObjectArray = "{\n" +
+            "  \"type\": \"array\",\n" +
+            "  \"items\": [{\"type\": \"object\",\"properties\":{\n" +
+            "  \"car\":{\"type\":\"string\"},\n" +
+            "  \"prize\":{\"type\":\"integer\"}}},{\"type\":\"object\"," +
+            "\"properties\":{\"second\":{\"type\":\"number\"}}},{\"type\":\"boolean\"}]\n" +
+            "}";
+
+    /**
+     * This test checks valid multi object array.
+     */
+    @Test
+    public void testValidMultiObjectArray() throws ValidatorException, ParserException {
+        String testPayload = "[{\"car\":\"lambo\",\"prize\":\"34\"},{\"second\":\"34.56\"},\"true\"]";
+        String expectedPayload = "[{\"car\":\"lambo\",\"prize\":34},{\"second\":34.56},true]";
+        JsonObject schemaObject = (JsonObject) parser.parse(multipleObjectArray);
+        JsonArray expected = (JsonArray) parser.parse(expectedPayload);
+        JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
+                schemaObject);
+        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
+        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+    }
+
+    /**
+     * This test checks invalid multi object array.
+     */
+    @Test
+    public void testInvalidMultiObjectArray() throws ValidatorException, ParserException {
+        thrown.expect(ParserException.class);
+        String testPayload = "[{\"car\":\"lambo\",\"prize\":34.56},{\"second\":34.56},true]";
+        JsonObject schemaObject = (JsonObject) parser.parse(objectInsideArrayString);
+        ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload), schemaObject);
+    }
 }

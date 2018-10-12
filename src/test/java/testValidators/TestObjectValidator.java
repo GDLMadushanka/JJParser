@@ -2,7 +2,6 @@ package testValidators;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import contants.ValidatorConstants;
 import exceptions.ParserException;
 import exceptions.ValidatorException;
 import org.junit.Assert;
