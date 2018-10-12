@@ -2,6 +2,7 @@ package testValidators;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import contants.ValidatorConstants;
 import exceptions.ParserException;
 import exceptions.ValidatorException;
 import org.junit.Assert;
@@ -54,14 +55,30 @@ public class TestObjectValidator {
      */
     @Test
     public void testInvalidRequiredConstraint() throws ValidatorException, ParserException {
-        String testPayload = "{\"name\": \"William Shakespeare\", \"email\": \"bill@stratford-upon-avon.co.uk\", \"age\":\"45\"}";
-        String expectedPayload = "{\"name\": \"William Shakespeare\", \"email\": \"bill@stratford-upon-avon.co.uk\", \"age\":45}";
+        String testPayload = "{\"name\": \"William Shakespeare\", \"email\": \"bill@stratford-upon-avon.co.uk\", " +
+                "\"age\":\"45\"}";
+        String expectedPayload = "{\"name\": \"William Shakespeare\", \"email\": \"bill@stratford-upon-avon.co.uk\", " +
+                "\"age\":45}";
         JsonObject schemaObject = (JsonObject) parser.parse(requiredValidationSchema);
         JsonObject expected = (JsonObject) parser.parse(expectedPayload);
         JsonObject testObject = (JsonObject) parser.parse(testPayload);
         JsonObject result = ObjectValidator.validateObject(testObject, schemaObject);
         Assert.assertNotNull(result);
-        Assert.assertEquals(expected,result);
+        Assert.assertEquals(expected, result);
+    }
+
+    /**
+     * This test checks for additional properties than schema.
+     */
+    @Test
+    public void testAdditionalPropertiesThanSchema() throws ValidatorException, ParserException {
+        String testPayload = "{\"name\": \"William Shakespeare\", \"email\": \"bill@stratford-upon-avon.co.uk\", " +
+                "\"additional\":\"45\"}";
+        JsonObject schemaObject = (JsonObject) parser.parse(requiredValidationSchema);
+        JsonObject expected = (JsonObject) parser.parse(testPayload);
+        JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(expected, result);
     }
 
     /**
@@ -70,7 +87,8 @@ public class TestObjectValidator {
     @Test
     public void testInvalidPropertiesConstraint() throws ValidatorException, ParserException {
         thrown.expect(ParserException.class);
-        String testPayload = "{\"name\": \"William Shakespeare\", \"email\": \"bill@stratford-upon-avon.co.uk\", \"age\":\"invalid\"}";
+        String testPayload = "{\"name\": \"William Shakespeare\", \"email\": \"bill@stratford-upon-avon.co.uk\", " +
+                "\"age\":\"invalid\"}";
         JsonObject schemaObject = (JsonObject) parser.parse(requiredValidationSchema);
         JsonObject testObject = (JsonObject) parser.parse(testPayload);
         ObjectValidator.validateObject(testObject, schemaObject);
@@ -100,7 +118,7 @@ public class TestObjectValidator {
         JsonObject expected = (JsonObject) parser.parse(testPayload);
         JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
         Assert.assertNotNull(result);
-        Assert.assertEquals(expected,result);
+        Assert.assertEquals(expected, result);
     }
 
     /**
@@ -126,5 +144,139 @@ public class TestObjectValidator {
         JsonObject schemaObject = (JsonObject) parser.parse(propertyCountSchema);
         JsonObject testObject = (JsonObject) parser.parse(testPayload);
         ObjectValidator.validateObject(testObject, schemaObject);
+    }
+
+    static String patternPropertyString = "{\"properties\": {\n" +
+            "             \"car\":{\"type\":\"string\"}\n" +
+            "       },\n" +
+            "       \"patternProperties\": {\n" +
+            "           \"p\": {\"type\":\"boolean\"},\n" +
+            "           \"[0-9]\": {\"type\":\"number\"}}}";
+
+    /**
+     * This test checks for valid pattern properties condition.
+     */
+    @Test
+    public void testValidPatternProperties() throws ValidatorException, ParserException {
+        String testPayload = "  {\"car\":\"Lambogini\",\n" +
+                "    \"palm\": \"true\",\n" +
+                "       \"a32&o\": \"89\",\n" +
+                "       \"fiddle\": \"42\",\n" +
+                "       \"apple\": \"true\"}";
+        JsonObject schemaObject = (JsonObject) parser.parse(patternPropertyString);
+        JsonObject expected = (JsonObject) parser.parse(testPayload);
+        JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(expected, result);
+    }
+
+    /**
+     * This test checks for an invalid pattern properties condition.
+     */
+    @Test
+    public void testInvalidPatternProperties() throws ValidatorException, ParserException {
+        thrown.expect(ParserException.class);
+        String testPayload = "  {\"car\":\"Lambogini\",\n" +
+                "    \"palm\": \"true\",\n" +
+                "       \"a32&o\": \"89\",\n" +
+                "       \"fiddle\": \"42\",\n" +
+                "       \"apple\": \"1234\"}";
+        JsonObject schemaObject = (JsonObject) parser.parse(patternPropertyString);
+        JsonObject expected = (JsonObject) parser.parse(testPayload);
+        ObjectValidator.validateObject(expected, schemaObject);
+    }
+
+    static String additionalPropertyString = "   {\"properties\": {\n" +
+            "             \"car\":{\"type\":\"string\"}\n" +
+            "       },\n" +
+            "       \"patternProperties\": {\n" +
+            "           \"p\": {\"type\":\"boolean\"},\n" +
+            "           \"[0-9]\": {\"type\":\"number\"}\n" +
+            "       },\n" +
+            "       \"additionalProperties\":false}\n";
+
+    /**
+     * This test checks for an invalid additional properties condition.
+     */
+    @Test
+    public void testInvalidAdditionalProperties() throws ValidatorException, ParserException {
+        thrown.expect(ValidatorException.class);
+        String testPayload = "  {\n" +
+                "    \"car\":\"Bugatti Veyron\",\n" +
+                "    \"palm\": true,\n" +
+                "       \"a32&o\": 89,\n" +
+                "       \"fiddle\": 42,\n" +
+                "       \"apple\": true\n" +
+                "   }";
+        JsonObject schemaObject = (JsonObject) parser.parse(additionalPropertyString);
+        JsonObject expected = (JsonObject) parser.parse(testPayload);
+        ObjectValidator.validateObject(expected, schemaObject);
+    }
+
+    /**
+     * This test checks for a valid additional properties condition.
+     */
+    @Test
+    public void testValidAdditionalProperties() throws ValidatorException, ParserException {
+        String testPayload = "  {\n" +
+                "    \"car\":\"Bugatti Veyron\",\n" +
+                "    \"palm\": true,\n" +
+                "       \"a32&o\": 89,\n" +
+                "       \"apple\": true\n" +
+                "   }";
+        JsonObject schemaObject = (JsonObject) parser.parse(additionalPropertyString);
+        JsonObject expected = (JsonObject) parser.parse(testPayload);
+        JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(expected, result);
+    }
+
+    static String getAdditionalPropertyAsObject = "   {\n" +
+            "       \"properties\": {\n" +
+            "             \"car\":{\"type\":\"string\"}\n" +
+            "       },\n" +
+            "       \"patternProperties\": {\n" +
+            "           \"p\": {\"type\":\"boolean\"},\n" +
+            "           \"[0-9]\": {\"type\":\"number\"}\n" +
+            "       },\n" +
+            "       \"additionalProperties\":{\"type\":\"array\",\"items\":{\"type\":\"integer\"}}\n" +
+            "   }\n";
+
+
+    /**
+     * This test checks for a valid additional properties condition.
+     */
+    @Test
+    public void testValidAdditionalPropObject() throws ValidatorException, ParserException {
+        String testPayload = "  {\n" +
+                "    \"car\":\"Lambogini\",\n" +
+                "    \"palm\": true,\n" +
+                "       \"a32&o\": 89,\n" +
+                "       \"fiddle\": [\"34\",34],\n" +
+                "       \"apple\": true\n" +
+                "   }";
+        JsonObject schemaObject = (JsonObject) parser.parse(getAdditionalPropertyAsObject);
+        JsonObject expected = (JsonObject) parser.parse(testPayload);
+        JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(expected, result);
+    }
+
+    /**
+     * This test checks for a invalid additional properties condition.
+     */
+    @Test
+    public void testInvalidAdditionalPropObject() throws ValidatorException, ParserException {
+        thrown.expect(ParserException.class);
+        String testPayload = "  {\n" +
+                "    \"car\":\"Lambogini\",\n" +
+                "    \"palm\": true,\n" +
+                "       \"a32&o\": 89,\n" +
+                "       \"fiddle\": [\"34\",34.56],\n" +
+                "       \"apple\": true\n" +
+                "   }";
+        JsonObject schemaObject = (JsonObject) parser.parse(getAdditionalPropertyAsObject);
+        JsonObject expected = (JsonObject) parser.parse(testPayload);
+        ObjectValidator.validateObject(expected, schemaObject);
     }
 }
