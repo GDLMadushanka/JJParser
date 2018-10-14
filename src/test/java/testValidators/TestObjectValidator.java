@@ -278,4 +278,38 @@ public class TestObjectValidator {
         JsonObject expected = (JsonObject) parser.parse(testPayload);
         ObjectValidator.validateObject(expected, schemaObject);
     }
+
+    static String arrayInsideObject = "{\"type\": \"object\",\n" +
+            "  \"properties\":{\n" +
+            "  \t\"car\":{\"type\":\"string\"},\n" +
+            "  \t\"prize\":{\"type\":\"integer\"},\n" +
+            "  \t\"arr\" : {\"type\":\"array\",\n" +
+            "            \"items\":[{\"type\":\"integer\"},{\"type\":\"number\"}]\n" +
+            "            ,\"additionalItems\":false}\n" +
+            "}}";
+
+    /**
+     * This test checks for a valid array inside object scenario.
+     */
+    @Test
+    public void testValidArrayInsideObject() throws ValidatorException, ParserException {
+        String testPayload = "{\"car\":123,\"prize\":34,\"arr\":[23,34.45]}";
+        JsonObject schemaObject = (JsonObject) parser.parse(arrayInsideObject);
+        JsonObject expected = (JsonObject) parser.parse(testPayload);
+        JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(expected, result);
+    }
+
+    /**
+     * This test checks for a invalid array inside object scenario.
+     */
+    @Test
+    public void testInvalidArrayInsideObject() throws ValidatorException, ParserException {
+        thrown.expect(ValidatorException.class);
+        String testPayload = "{\"car\":123,\"prize\":34,\"arr\":[23,34.45,34]}";
+        JsonObject schemaObject = (JsonObject) parser.parse(arrayInsideObject);
+        JsonObject expected = (JsonObject) parser.parse(testPayload);
+        ObjectValidator.validateObject(expected, schemaObject);
+    }
 }

@@ -78,6 +78,12 @@
             <version>2.19.1</version>
             <type>maven-plugin</type>
         </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+
     </dependencies>
 
 
