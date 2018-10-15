@@ -57,21 +57,27 @@ public class TestJavaJsonParser {
         Assert.assertEquals(expected, result);
     }
 
+    /**
+     * This test checks data type and structure correction.
+     */
     @Test
-    public void test2() throws ValidatorException, ParserException {
+    public void testTypeAndStructureCorrection() throws ValidatorException, ParserException {
         String schema = "{\n" +
-                "  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n" +
-                "  \"type\": \"object\",\n" +
-                "  \"properties\": {\n" +
-                "      \"singleObjArray\": {\n" +
-                "          \"type\": \"array\",\n" +
-                "          \"items\": [{\"type\": \"number\"}]\n" +
-                "      }\n" +
-                "  }\n" +
-                "}";
-        String inputJson = "{\"singleObjArray\":\"1.618\"}";
+                "\"schema\": \"http://json-schema.org/draft-04/schema#\",\n" +
+                "\"type\": \"object\",\n" +
+                "\"properties\": {\n" +
+                "\"singleObjArray\": {\n" +
+                "\"type\": \"array\",\n" +
+                "\"items\": [{\n" +
+                "\"type\": \"object\",\n" +
+                "\"properties\": {\n" +
+                "\"bla\": {\n" +
+                "\"type\": \"integer\"\n" +
+                "}}}]}}}";
+        String inputJson = "{\"singleObjArray\":{\"bla\":\"3\"}}";
+        String expected = "{\"singleObjArray\":[{\"bla\":3}]}";
         String result = JavaJsonParser.parseJson(inputJson, schema);
-        System.out.println(result);
+        Assert.assertEquals(expected, result);
     }
 
 }
