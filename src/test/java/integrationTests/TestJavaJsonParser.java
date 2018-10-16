@@ -78,6 +78,7 @@ public class TestJavaJsonParser {
         String expected = "{\"singleObjArray\":[{\"bla\":3}]}";
         String result = JavaJsonParser.parseJson(inputJson, schema);
         Assert.assertEquals(expected, result);
+        System.out.println(inputJson);
     }
 
 }
