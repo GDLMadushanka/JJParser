@@ -1,5 +1,5 @@
 # JJParser
-![](https://drive.google.com/file/d/1YpX7Xi3gbdeADpGp_W9r83xUXS1y5gGN/view?usp=sharing)
+![logo](https://user-images.githubusercontent.com/8251118/47053715-dc562700-d1cb-11e8-84e6-2aa8a3957699.jpg)
 
 JJParser stands for JAVA JSON Parser which rectifies your JSON input according to a given schema.
 
