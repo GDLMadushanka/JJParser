@@ -55,8 +55,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(expectedPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -85,8 +85,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(expectedPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -114,8 +114,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(expectedPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -129,8 +129,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(testPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -158,8 +158,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(testPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -187,8 +187,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(expectedPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -217,8 +217,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(expectedPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -232,8 +232,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(testPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -262,8 +262,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(expectedPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -279,8 +279,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(expectedPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     static String objectInsideArrayString = "{\n" +
@@ -304,8 +304,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(expectedPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -338,8 +338,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(expectedPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -366,8 +366,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(expectedPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**
@@ -382,8 +382,8 @@ public class TestArrayValidator {
         JsonArray expected = (JsonArray) parser.parse(expectedPayload);
         JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
                 schemaObject);
-        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
-        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON array", result);
+        Assert.assertEquals("Didn't receive the expected array", expected, result);
     }
 
     /**

@@ -62,8 +62,8 @@ public class TestObjectValidator {
         JsonObject expected = (JsonObject) parser.parse(expectedPayload);
         JsonObject testObject = (JsonObject) parser.parse(testPayload);
         JsonObject result = ObjectValidator.validateObject(testObject, schemaObject);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON object", result);
+        Assert.assertEquals("Didn't receive the expected object", expected, result);
     }
 
     /**
@@ -76,8 +76,8 @@ public class TestObjectValidator {
         JsonObject schemaObject = (JsonObject) parser.parse(requiredValidationSchema);
         JsonObject expected = (JsonObject) parser.parse(testPayload);
         JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON object", result);
+        Assert.assertEquals("Didn't receive the expected object", expected, result);
     }
 
     /**
@@ -116,8 +116,8 @@ public class TestObjectValidator {
         JsonObject schemaObject = (JsonObject) parser.parse(propertyCountSchema);
         JsonObject expected = (JsonObject) parser.parse(testPayload);
         JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON object", result);
+        Assert.assertEquals("Didn't receive the expected object", expected, result);
     }
 
     /**
@@ -165,8 +165,8 @@ public class TestObjectValidator {
         JsonObject schemaObject = (JsonObject) parser.parse(patternPropertyString);
         JsonObject expected = (JsonObject) parser.parse(testPayload);
         JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON object", result);
+        Assert.assertEquals("Didn't receive the expected object", expected, result);
     }
 
     /**
@@ -226,8 +226,8 @@ public class TestObjectValidator {
         JsonObject schemaObject = (JsonObject) parser.parse(additionalPropertyString);
         JsonObject expected = (JsonObject) parser.parse(testPayload);
         JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON object", result);
+        Assert.assertEquals("Didn't receive the expected object", expected, result);
     }
 
     static String getAdditionalPropertyAsObject = "   {\n" +
@@ -257,8 +257,8 @@ public class TestObjectValidator {
         JsonObject schemaObject = (JsonObject) parser.parse(getAdditionalPropertyAsObject);
         JsonObject expected = (JsonObject) parser.parse(testPayload);
         JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON object", result);
+        Assert.assertEquals("Didn't receive the expected object", expected, result);
     }
 
     /**
@@ -297,8 +297,8 @@ public class TestObjectValidator {
         JsonObject schemaObject = (JsonObject) parser.parse(arrayInsideObject);
         JsonObject expected = (JsonObject) parser.parse(testPayload);
         JsonObject result = ObjectValidator.validateObject(expected, schemaObject);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON object", result);
+        Assert.assertEquals("Didn't receive the expected object", expected, result);
     }
 
     /**
@@ -334,8 +334,8 @@ public class TestObjectValidator {
         JsonObject payload = (JsonObject) parser.parse(testPayload);
         JsonObject expected = (JsonObject) parser.parse(expectedPayload);
         JsonObject result = ObjectValidator.validateObject(payload, schemaObject);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assert.assertNotNull("Validator didn't respond with a JSON object", result);
+        Assert.assertEquals("Didn't receive the expected object", expected, result);
     }
 
     /**
