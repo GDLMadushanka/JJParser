@@ -312,4 +312,43 @@ public class TestObjectValidator {
         JsonObject expected = (JsonObject) parser.parse(testPayload);
         ObjectValidator.validateObject(expected, schemaObject);
     }
+
+    static String schemaWithNull = "   {\n" +
+            "       \"properties\": {\n" +
+            "             \"car\":{\"type\":\"string\"},  \"van\":{\"type\":\"null\"} }" +
+            "       }";
+
+
+    /**
+     * This test checks for a valid null input.
+     */
+    @Test
+    public void testValidObjectWithNull() throws ValidatorException, ParserException {
+        String testPayload = "  {\n" +
+                "    \"car\":\"Lambogini\",\n" +
+                "    \"van\": \"\" }";
+        String expectedPayload = "  {\n" +
+                "    \"car\":\"Lambogini\",\n" +
+                "    \"van\": null }";
+        JsonObject schemaObject = (JsonObject) parser.parse(schemaWithNull);
+        JsonObject payload = (JsonObject) parser.parse(testPayload);
+        JsonObject expected = (JsonObject) parser.parse(expectedPayload);
+        JsonObject result = ObjectValidator.validateObject(payload, schemaObject);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(expected, result);
+    }
+
+    /**
+     * This test checks for an invalid null input.
+     */
+    @Test
+    public void testInvalidObjectWithNull() throws ValidatorException, ParserException {
+        thrown.expect(ValidatorException.class);
+        String testPayload = "  {\n" +
+                "    \"car\":\"Lambogini\",\n" +
+                "    \"van\": \"bla\" }";
+        JsonObject schemaObject = (JsonObject) parser.parse(schemaWithNull);
+        JsonObject payload = (JsonObject) parser.parse(testPayload);
+        ObjectValidator.validateObject(payload, schemaObject);
+    }
 }

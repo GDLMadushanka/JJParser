@@ -44,7 +44,6 @@ public class TestArrayValidator {
 
     /**
      * This test checks array of items with valid data. (numeric,string,boolean)
-     * todo add null also here
      */
     @Test
     public void testArrayOfItemsValid() throws ValidatorException, ParserException {
@@ -236,6 +235,7 @@ public class TestArrayValidator {
         Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
         Assert.assertEquals("Didn't receive the expected primitive", expected, result);
     }
+
     /**
      * This test checks additionalItems false constraint
      */
@@ -283,7 +283,7 @@ public class TestArrayValidator {
         Assert.assertEquals("Didn't receive the expected primitive", expected, result);
     }
 
-    static String objectInsideArrayString =  "{\n" +
+    static String objectInsideArrayString = "{\n" +
             "  \"type\": \"array\",\n" +
             "  \"items\": {\n" +
             "    \"type\": \"object\",\"properties\":{\n" +
@@ -350,6 +350,51 @@ public class TestArrayValidator {
         thrown.expect(ParserException.class);
         String testPayload = "[{\"car\":\"lambo\",\"prize\":34.56},{\"second\":34.56},true]";
         JsonObject schemaObject = (JsonObject) parser.parse(objectInsideArrayString);
+        ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload), schemaObject);
+    }
+
+    /**
+     * This test checks array of schema with null type.
+     */
+    @Test
+    public void testArrayOfSchemaWithValidNull() throws ValidatorException, ParserException {
+        String schema = "{ \"type\": \"array\", \"items\":[{\"type\":\"null\"},{ \"type\": \"null\"}," +
+                "{ \"type\": \"null\"}]}";
+        String testPayload = "[\"\",\"null\"," + null + "]";
+        String expectedPayload = "[null,null,null]";
+        JsonObject schemaObject = (JsonObject) parser.parse(schema);
+        JsonArray expected = (JsonArray) parser.parse(expectedPayload);
+        JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
+                schemaObject);
+        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
+        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+    }
+
+    /**
+     * This test checks schema of null type.
+     */
+    @Test
+    public void testSchemaWithValidNull() throws ValidatorException, ParserException {
+        String schema = "{ \"type\": \"array\", \"items\":{\"type\":\"null\"}}";
+        String testPayload = "[\"\",\"null\"," + null + "]";
+        String expectedPayload = "[null,null,null]";
+        JsonObject schemaObject = (JsonObject) parser.parse(schema);
+        JsonArray expected = (JsonArray) parser.parse(expectedPayload);
+        JsonArray result = ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload),
+                schemaObject);
+        Assert.assertNotNull("Validator didn't respond with a JSON primitive", result);
+        Assert.assertEquals("Didn't receive the expected primitive", expected, result);
+    }
+
+    /**
+     * This test checks schema of invalid null values.
+     */
+    @Test
+    public void testSchemaWithInvalidNull() throws ValidatorException, ParserException {
+        thrown.expect(ValidatorException.class);
+        String schema = "{ \"type\": \"array\", \"items\":{\"type\":\"null\"}}";
+        String testPayload = "[\"Sesto\",\"Elemento\"]";
+        JsonObject schemaObject = (JsonObject) parser.parse(schema);
         ArrayValidator.validateArray(GSONDataTypeConverter.getMapFromString(testPayload), schemaObject);
     }
 }
