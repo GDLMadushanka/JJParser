@@ -54,7 +54,7 @@ public class TestJavaJsonParser {
                 "\"nestedObject\":{\"Lahiru\":{\"age\":27},\"Nimal\":{\"married\":true},\"Kamal\":{\"scores\":[24,45," +
                 "67]}},\"nestedArray\":[[12,23,34],[true,false],[\"Linking Park\",\"Coldplay\"]]," +
                 "\"allNumericArray\":[3,1,4],\"Hello\":890,\"league_goals\":10}";
-        Assert.assertEquals(expected, result);
+        Assert.assertEquals("Didn't receive the expected payload after parsing", expected, result);
     }
 
     /**
@@ -77,7 +77,7 @@ public class TestJavaJsonParser {
         String inputJson = "{\"singleObjArray\":{\"bla\":\"3\"}}";
         String expected = "{\"singleObjArray\":[{\"bla\":3}]}";
         String result = JavaJsonParser.parseJson(inputJson, schema);
-        Assert.assertEquals(expected, result);
+        Assert.assertEquals("Didn't receive the expected payload after parsing", expected, result);
         System.out.println(inputJson);
     }
 
