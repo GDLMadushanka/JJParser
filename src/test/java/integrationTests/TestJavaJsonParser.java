@@ -46,14 +46,13 @@ public class TestJavaJsonParser {
         String validatingInput = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
 
         //creating instances
-
         String result = JavaJsonParser.parseJson(validatingInput, inputJson);
         String expected = "{\"fruit\":\"12345\",\"price\":7.5,\"simpleObject\":{\"age\":234}," +
                 "\"simpleArray\":[true,false,\"true\"],\"objWithArray\":{\"marks\":[34,45,56,67]}," +
                 "\"arrayOfObjects\":[{\"maths\":90},{\"physics\":95},{\"chemistry\":65}],\"singleObjArray\":[1.618]," +
                 "\"nestedObject\":{\"Lahiru\":{\"age\":27},\"Nimal\":{\"married\":true},\"Kamal\":{\"scores\":[24,45," +
                 "67]}},\"nestedArray\":[[12,23,34],[true,false],[\"Linking Park\",\"Coldplay\"]]," +
-                "\"allNumericArray\":[3,1,4],\"Hello\":890,\"league_goals\":10}";
+                "\"allNumericArray\":[3,1,4],\"Hello\":890,\"nullArray\":[null,null,null],\"league_goals\":10}";
         Assert.assertEquals("Didn't receive the expected payload after parsing", expected, result);
     }
 

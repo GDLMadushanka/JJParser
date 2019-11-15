@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Constants used in JSON parser.
+ */
 public class ValidatorConstants {
 
     private ValidatorConstants() {

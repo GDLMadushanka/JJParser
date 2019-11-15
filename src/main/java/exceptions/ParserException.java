@@ -1,5 +1,8 @@
 package exceptions;
 
+/**
+ * Exception for data type related errors.
+ */
 public class ParserException extends Exception {
 
     public ParserException() {

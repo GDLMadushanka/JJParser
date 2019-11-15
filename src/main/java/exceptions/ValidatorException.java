@@ -1,5 +1,8 @@
 package exceptions;
 
+/**
+ * Exception for validation rule violations.
+ */
 public class ValidatorException extends Exception {
 
     public ValidatorException() {

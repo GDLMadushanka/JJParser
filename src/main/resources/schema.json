@@ -217,6 +217,12 @@
       "minItems": 1,
       "maxItems": 3,
       "uniqueItems": true
+    },
+    "nullArray": {
+      "type": "array",
+      "items": {
+        "type": "null"
+      }
     }
 },
   "required": [
