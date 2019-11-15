@@ -53,13 +53,9 @@ public class JavaJsonParser {
             boolean valid = schema.getAsBoolean();
             if (valid) {
                 return inputString;
-            } else if (!valid) {
+            } else  {
                 ValidatorException exception = new ValidatorException("JSON schema is not valid for all elements");
                 logger.error("JSON schema is false, so all validations will fail", exception);
-                throw exception;
-            } else {
-                ValidatorException exception = new ValidatorException("Unexpected JSON schema");
-                logger.error("JSON schema should be an object or boolean", exception);
                 throw exception;
             }
         } else {
