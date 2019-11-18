@@ -47,8 +47,6 @@ public class ArrayValidator {
         int maxItems = -1;
         boolean uniqueItems = false;
         boolean notAllowAdditional = false;
-        minItems = -1;
-        maxItems = -1;
         // parsing the properties related to arrays from the schema, if they exists.
         if (schema.has(UNIQUE_ITEMS)) {
             String uniqueItemsString = schema.get(UNIQUE_ITEMS).getAsString().replaceAll(ValidatorConstants.REGEX, "");
@@ -92,7 +90,7 @@ public class ArrayValidator {
 
         // Convert the input to an array. If possible, do the single element array correction. Ex 45 -> [45]
         // else throw an error
-        JsonArray inputArray = null;
+        JsonArray inputArray;
         if (input.getValue().isJsonArray()) {
             inputArray = input.getValue().getAsJsonArray();
         } else {

@@ -39,9 +39,9 @@ public class ObjectValidator {
     /**
      * This method will validate a given JSON input object according to
      *
-     * @param object
-     * @param schema
-     * @return
+     * @param object JSON Object
+     * @param schema JSON schema
+     * @return validated object
      * @throws ParserException    Exception occurred in data type conversions.
      * @throws ValidatorException Exception occurred in schema validations.
      */

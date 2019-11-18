@@ -20,12 +20,9 @@ public class StringValidator {
     // Logger instance
     private static Log logger = LogFactory.getLog(StringValidator.class.getName());
 
-    private static int minLength;
-    private static int maxLength;
-
-    public static final String MIN_LENGTH = "minLength";
-    public static final String MAX_LENGTH = "maxLength";
-    public static final String STR_PATTERN = "pattern";
+    private static final String MIN_LENGTH = "minLength";
+    private static final String MAX_LENGTH = "maxLength";
+    private static final String STR_PATTERN = "pattern";
 
     /**
      * Validate a given string against its schema.
@@ -48,7 +45,7 @@ public class StringValidator {
         if (inputObject.has(MAX_LENGTH)) {
             String maxLengthString = inputObject.get(MAX_LENGTH).getAsString().replaceAll(ValidatorConstants.REGEX, "");
             if (!maxLengthString.isEmpty()) {
-                maxLength = DataTypeConverter.convertToInt(maxLengthString);
+                int maxLength = DataTypeConverter.convertToInt(maxLengthString);
                 if (value.length() > maxLength) {
                     ValidatorException exception = new ValidatorException("String \"" + value + "\" violated the max " +
                             "length constraint");
@@ -61,7 +58,7 @@ public class StringValidator {
         if (inputObject.has(MIN_LENGTH)) {
             String minLengthString = inputObject.get(MIN_LENGTH).getAsString().replaceAll(ValidatorConstants.REGEX, "");
             if (!minLengthString.isEmpty()) {
-                minLength = DataTypeConverter.convertToInt(minLengthString);
+                int minLength = DataTypeConverter.convertToInt(minLengthString);
                 if (value.length() < minLength) {
                     ValidatorException exception = new ValidatorException("String \"" + value + "\" violated the min " +
                             "length constraint");
