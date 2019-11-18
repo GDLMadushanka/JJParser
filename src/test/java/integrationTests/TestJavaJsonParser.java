@@ -80,4 +80,13 @@ public class TestJavaJsonParser {
         System.out.println(inputJson);
     }
 
+    /**
+     * This test checks the behaviour for invalid inputs.
+     */
+    @Test
+    public void testInvalidInputs() throws ValidatorException, ParserException {
+        thrown.expect(ParserException.class);
+        JavaJsonParser.parseJson(null, null);
+
+    }
 }

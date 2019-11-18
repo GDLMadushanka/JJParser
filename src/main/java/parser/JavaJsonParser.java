@@ -7,16 +7,10 @@ import com.google.gson.JsonParser;
 import contants.ValidatorConstants;
 import exceptions.ParserException;
 import exceptions.ValidatorException;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import utils.GSONDataTypeConverter;
 import validators.*;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PipedOutputStream;
 
 /**
  * This class will parse a given JSON input according to a given schema.
@@ -44,26 +38,32 @@ public class JavaJsonParser {
      * @throws ParserException    Exception occurs in data type parsing.
      */
     public static String parseJson(String inputString, String inputSchema) throws ValidatorException, ParserException {
-        JsonObject schemaObject = null;
-        JsonElement schema = parser.parse(inputSchema);
-        if (schema.isJsonObject()) {
-            schemaObject = schema.getAsJsonObject();
-        } else if (schema.isJsonPrimitive()) {
-            // if schema is primitive it should be a boolean
-            boolean valid = schema.getAsBoolean();
-            if (valid) {
-                return inputString;
-            } else  {
-                ValidatorException exception = new ValidatorException("JSON schema is not valid for all elements");
-                logger.error("JSON schema is false, so all validations will fail", exception);
+        if (inputString != null && !inputString.isEmpty() && inputSchema != null && !inputSchema.isEmpty()) {
+            JsonObject schemaObject;
+            JsonElement schema = parser.parse(inputSchema);
+            if (schema.isJsonObject()) {
+                schemaObject = schema.getAsJsonObject();
+            } else if (schema.isJsonPrimitive()) {
+                // if schema is primitive it should be a boolean
+                boolean valid = schema.getAsBoolean();
+                if (valid) {
+                    return inputString;
+                } else {
+                    ValidatorException exception = new ValidatorException("JSON schema is not valid for all elements");
+                    logger.error("JSON schema is false, so all validations will fail", exception);
+                    throw exception;
+                }
+            } else {
+                ValidatorException exception = new ValidatorException("Unexpected JSON schema");
+                logger.error("JSON schema should be an object or boolean", exception);
                 throw exception;
             }
+            return parseJson(inputString, schemaObject);
         } else {
-            ValidatorException exception = new ValidatorException("Unexpected JSON schema");
-            logger.error("JSON schema should be an object or boolean", exception);
+            ParserException exception = new ParserException("Invalid inputs");
+            logger.error("Input json and schema should not be null", exception);
             throw exception;
         }
-        return parseJson(inputString, schemaObject);
     }
 
     /**
@@ -77,11 +77,11 @@ public class JavaJsonParser {
      * @throws ParserException    Exception occurs in data type parsing.
      */
     public static String parseJson(String inputString, Object schema) throws ValidatorException, ParserException {
-        JsonElement result = null;
-        JsonObject schemaObject = (JsonObject) schema;
-        String type = schemaObject.get(ValidatorConstants.TYPE_KEY).toString().replaceAll(ValidatorConstants
-                .REGEX, "");
-        if (inputString != null) {
+        if (inputString != null && !inputString.isEmpty() && schema instanceof JsonObject) {
+            JsonElement result = null;
+            JsonObject schemaObject = (JsonObject) schema;
+            String type = schemaObject.get(ValidatorConstants.TYPE_KEY).toString().replaceAll(
+                    ValidatorConstants.REGEX, "");
             if (ValidatorConstants.BOOLEAN_KEYS.contains(type)) {
                 result = BooleanValidator.validateBoolean(schemaObject, inputString);
             } else if (ValidatorConstants.NOMINAL_KEYS.contains(type)) {
@@ -109,6 +109,10 @@ public class JavaJsonParser {
             }
             return null;
         }
-        return null;
+        else {
+            ParserException exception = new ParserException("Invalid inputs");
+            logger.error("Input json and schema should not be null, schema should be a JSON object", exception);
+            throw exception;
+        }
     }
 }
