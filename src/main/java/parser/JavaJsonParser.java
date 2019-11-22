@@ -42,6 +42,10 @@ public class JavaJsonParser {
             JsonObject schemaObject;
             JsonElement schema = parser.parse(inputSchema);
             if (schema.isJsonObject()) {
+                // Handling empty JSON objects - valid for all inputs
+                if(schema.toString().replaceAll("\\s+","").equals("{}")) {
+                    return inputString;
+                }
                 schemaObject = schema.getAsJsonObject();
             } else if (schema.isJsonPrimitive()) {
                 // if schema is primitive it should be a boolean

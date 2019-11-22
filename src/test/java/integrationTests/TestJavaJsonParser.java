@@ -87,6 +87,33 @@ public class TestJavaJsonParser {
     public void testInvalidInputs() throws ValidatorException, ParserException {
         thrown.expect(ParserException.class);
         JavaJsonParser.parseJson(null, null);
+    }
 
+    /**
+     * This test checks the behaviour for {} schema inputs.
+     */
+    @Test
+    public void testEmptySchemaInput() throws ValidatorException, ParserException {
+        String result = JavaJsonParser.parseJson("123", "  {   }  ");
+        Assert.assertEquals("Didn't receive the expected payload", "123", result);
+    }
+
+    /**
+     * This test checks the behaviour for "true" schema inputs.
+     */
+    @Test
+    public void testTrueSchemaInput() throws ValidatorException, ParserException {
+        String result = JavaJsonParser.parseJson("123", "true");
+        Assert.assertEquals("Didn't receive the expected payload", "123", result);
+    }
+
+    /**
+     * This test checks the behaviour for "false" schema inputs.
+     */
+    @Test
+    public void testFalseSchemaInput() throws ValidatorException, ParserException {
+        thrown.expect(ValidatorException.class);
+        thrown.expectMessage("JSON schema is not valid for all elements");
+        JavaJsonParser.parseJson("123", "false");
     }
 }
