@@ -217,24 +217,29 @@ public class ObjectValidator {
      * @throws ValidatorException Exception occurred in schema validations.
      */
     private static void processPatternProperties(JsonObject object, JsonObject schema, ArrayList<String>
-            patternProperties) throws ParserException,
-            ValidatorException {
+            patternProperties) throws ParserException, ValidatorException {
         Set<String> inputObjectKeyset = object.keySet();
         JsonObject patternsObject = schema.getAsJsonObject(PATTERN_PROPERTIES);
         Set<Map.Entry<String, JsonElement>> patterns = patternsObject.entrySet();
         for (Map.Entry<String, JsonElement> pattern : patterns) {
             String regex = pattern.getKey();
             JsonObject tempSchema = pattern.getValue().getAsJsonObject();
-            String type = tempSchema.get(ValidatorConstants.TYPE_KEY).getAsString().replaceAll(ValidatorConstants
-                    .REGEX, "");
-            // get the list of keys matched the regular expression
-            ArrayList<String> matchingKeys = getMatchRegexAgainstStringSet(inputObjectKeyset, regex);
-            for (String key : matchingKeys) {
-                // updating patternProperties array for later use in additional properties.
-                if (!patternProperties.contains(key)) {
-                    patternProperties.add(key);
+            if (tempSchema.has(ValidatorConstants.TYPE_KEY)) {
+                String type = tempSchema.get(ValidatorConstants.TYPE_KEY).getAsString().replaceAll(ValidatorConstants
+                        .REGEX, "");
+                // get the list of keys matched the regular expression
+                ArrayList<String> matchingKeys = getMatchRegexAgainstStringSet(inputObjectKeyset, regex);
+                for (String key : matchingKeys) {
+                    // updating patternProperties array for later use in additional properties.
+                    if (!patternProperties.contains(key)) {
+                        patternProperties.add(key);
+                    }
+                    parseAndReplaceValues(object, tempSchema, type, key);
                 }
-                parseAndReplaceValues(object, tempSchema, type, key);
+            } else {
+                ValidatorException exception = new ValidatorException("Schema for object must have a type declaration");
+                logger.error("Schema for object must have a type declaration " + tempSchema.toString(), exception);
+                throw exception;
             }
         }
     }
@@ -299,10 +304,16 @@ public class ObjectValidator {
                                                               JsonObject schema) throws ValidatorException,
             ParserException {
         if (!schema.entrySet().isEmpty() && !keysArray.isEmpty()) {
-            String type = schema.get(ValidatorConstants.TYPE_KEY).toString().replaceAll
-                    (ValidatorConstants.REGEX, "");
-            for (String key : keysArray) {
-                parseAndReplaceValues(input, schema, type, key);
+            if (schema.has(ValidatorConstants.TYPE_KEY)) {
+                String type = schema.get(ValidatorConstants.TYPE_KEY).toString().replaceAll
+                        (ValidatorConstants.REGEX, "");
+                for (String key : keysArray) {
+                    parseAndReplaceValues(input, schema, type, key);
+                }
+            } else {
+                ValidatorException exception = new ValidatorException("Schema for array must have a type declaration");
+                logger.error("Schema for array must have a type declaration " + schema.toString(), exception);
+                throw exception;
             }
         }
     }

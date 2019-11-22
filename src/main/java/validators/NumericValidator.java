@@ -64,7 +64,7 @@ public class NumericValidator {
                             "" + multipleOf);
                     logger.error("multipleOf constraint in " + inputObject.toString() + " is violated by the input " +
                             value, exception);
-                    throw new ValidatorException(exception);
+                    throw exception;
                 }
             }
             // handling maximum and minimum

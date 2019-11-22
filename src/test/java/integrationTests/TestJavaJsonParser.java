@@ -116,4 +116,50 @@ public class TestJavaJsonParser {
         thrown.expectMessage("JSON schema is not valid for all elements");
         JavaJsonParser.parseJson("123", "false");
     }
+
+    /**
+     * This test checks the behaviour for invalid schema inputs.
+     */
+    @Test
+    public void testJSONSchemaWithoutType() throws ValidatorException, ParserException {
+        thrown.expect(ValidatorException.class);
+        thrown.expectMessage("JSON schema should contain a type declaration");
+        String schema = "{\n" +
+                "\"schema\": \"http://json-schema.org/draft-04/schema#\",\n" +
+                "\"typed\": \"object\",\n" +
+                "\"properties\": {\n" +
+                "\"singleObjArray\": {\n" +
+                "\"type\": \"array\",\n" +
+                "\"items\": [{\n" +
+                "\"type\": \"object\",\n" +
+                "\"properties\": {\n" +
+                "\"bla\": {\n" +
+                "\"type\": \"integer\"\n" +
+                "}}}]}}}";
+        String inputJson = "{\"singleObjArray\":{\"bla\":\"3\"}}";
+        JavaJsonParser.parseJson(inputJson, schema);
+    }
+
+    /**
+     * This test checks the behaviour for invalid schema inputs.
+     */
+    @Test
+    public void testInvalidJSONSchema() throws ValidatorException, ParserException {
+        thrown.expect(ValidatorException.class);
+        thrown.expectMessage("Invalid JSON schema java.io.EOFException: End of input at line 12 column 7 path $.properties");
+        String schema = "{\n" +
+                "\"schema\": \"http://json-schema.org/draft-04/schema#\",\n" +
+                "\"typed\": \"object\",\n" +
+                "\"properties\": {\n" +
+                "\"singleObjArray\": {\n" +
+                "\"type\": \"array\",\n" +
+                "\"items\": [{\n" +
+                "\"type\": \"object\",\n" +
+                "\"properties\": {\n" +
+                "\"bla\": {\n" +
+                "\"type\": \"integer\"\n" +
+                "}}}]}}";
+        String inputJson = "{\"singleObjArray\":{\"bla\":\"3\"}}";
+        JavaJsonParser.parseJson(inputJson, schema);
+    }
 }
