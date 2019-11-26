@@ -326,7 +326,7 @@ public class TestObjectValidator {
     public void testValidObjectWithNull() throws ValidatorException, ParserException {
         String testPayload = "  {\n" +
                 "    \"car\":\"Lambogini\",\n" +
-                "    \"van\": \"\" }";
+                "    \"van\": null }";
         String expectedPayload = "  {\n" +
                 "    \"car\":\"Lambogini\",\n" +
                 "    \"van\": null }";
